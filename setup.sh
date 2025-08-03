@@ -1,46 +1,35 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/bash
+# filepath: /home/aaron/ttc-linux-setup/setup.sh
 
-PROTON_DIR="$HOME/.local/share/Steam/compatibilitytools.d/GE-Proton10-10"
-PROTON_PREFIX="$HOME/.local/share/ttc-client"
-INSTALLER="./TTCClientSetup.exe"
+# Set variables
+ICON_SRC="ttc.png"
+ICON_DEST="$HOME/.local/share/icons/ttc.png"
+DESKTOP_SRC="ttc-client.desktop"
+DESKTOP_DEST="$HOME/.local/share/applications/ttc-client.desktop"
+SCRIPTS_SRC_DIR="Scripts"
+SCRIPTS_DEST_DIR="$HOME/.steam/steam/steamapps/compatdata/306130/pfx/drive_c/users/steamuser/Documents/Elder Scrolls Online/live/AddOns/TamrielTradeCentre/Scripts"
 
-# Required for Proton to run standalone
-export STEAM_COMPAT_DATA_PATH="$PROTON_PREFIX"
-export STEAM_COMPAT_CLIENT_INSTALL_PATH="$HOME/.steam/steam"
+# Create destination directories if they don't exist
+mkdir -p "$(dirname "$ICON_DEST")"
+mkdir -p "$(dirname "$DESKTOP_DEST")"
+mkdir -p "$SCRIPTS_DEST_DIR"
 
-if [[ ! -f "$INSTALLER" ]]; then
-  echo "[!] Please manually download TTCClientSetup.exe from:"
-  echo "    https://tamrieltradecentre.com/help/AddonAndClient"
-  echo "And place it in this directory before continuing."
-  exit 1
-fi
+# Copy icon
+cp "$ICON_SRC" "$ICON_DEST"
 
-mkdir -p "$PROTON_PREFIX"
+# Copy .desktop file
+cp "$DESKTOP_SRC" "$DESKTOP_DEST"
 
-echo "[+] Installing TTC client with Proton..."
-"$PROTON_DIR/proton" run "$INSTALLER"
+# Copy scripts
+cp "$SCRIPTS_SRC_DIR/5-min-loop.sh" "$SCRIPTS_DEST_DIR/"
+cp "$SCRIPTS_SRC_DIR/one-time.sh" "$SCRIPTS_DEST_DIR/"
 
-# Link AddOn data
-ESO_PREFIX="$HOME/.steam/steam/steamapps/compatdata/306130/pfx"
-ESO_DOCS="$ESO_PREFIX/drive_c/users/steamuser/Documents/Elder Scrolls Online/live"
-TTC_DOCS="$PROTON_PREFIX/drive_c/users/steamuser/Documents/Elder Scrolls Online"
-
-mkdir -p "$TTC_DOCS"
-ln -sf "$ESO_DOCS" "$TTC_DOCS/live"
-
-echo "[+] Installing desktop entry..."
-
-if [[ ! -f ttc-client.desktop ]]; then
-  echo "[!] ttc-client.desktop not found in repo. Skipping desktop entry installation."
+# Run kbuildsycoca6 if KDE6 is detected
+if command -v kbuildsycoca6 &> /dev/null; then
+    kbuildsycoca6
+    echo "KDE6 detected: ran kbuildsycoca6."
 else
-  echo "[+] Installing desktop entry..."
-  install -Dm644 ttc-client.desktop "$HOME/.local/share/applications/ttc-client.desktop"
-  chmod +x "$HOME/.local/share/applications/ttc-client.desktop"
-  kbuildsycoca5 &>/dev/null || true
+    echo "KDE6 not detected: skipped kbuildsycoca6."
 fi
 
-echo "[+] Desktop entry installed. You should now see Tamriel Trade Centre in your application menu."
-
-
-echo "[+] Setup complete."
+echo "Setup complete."
