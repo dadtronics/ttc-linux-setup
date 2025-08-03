@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Tamriel Trade Centre
+Exec=env PROTON_NO_ESYNC=1 PROTON_NO_FSYNC=1 \
+     ~/.local/share/Steam/compatibilitytools.d/GE-Proton10-10/proton run \
+     --prefix=~/.local/share/ttc-client \
+     "C:\\Program Files (x86)\\Tamriel Trade Centre\\TTCClient.exe"
+Type=Application
+Categories=Game;
+StartupNotify=false
+Terminal=false
