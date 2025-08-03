@@ -9,6 +9,22 @@ This script sets up the Tamriel Trade Centre (TTC) Windows client for Elder Scro
 - Symlinks your ESO addon data so TTC sync works
 - Optionally installs a `.desktop` launcher for your menu
 
+## 📥 Prerequisite: Download the TTC Client Installer Manually
+
+Due to Tamriel Trade Centre’s Terms of Service and browser-based download requirements, you must manually download the Windows installer before running the setup script:
+
+1. Visit: [https://tamrieltradecentre.com/help/AddonAndClient](https://tamrieltradecentre.com/help/AddonAndClient)
+2. Check the **“I agree”** box
+3. Click the **Download** button
+4. Save the file as `TTCClientSetup.exe` in the root of this repo (next to `setup.sh`)
+
+Once the file is in place, you can run the installer script:
+
+```bash
+chmod +x setup.sh
+./setup.sh
+```
+
 ## 🚀 Requirements
 
 - Steam installed with ESO via Proton
