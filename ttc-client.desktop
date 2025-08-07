@@ -2,8 +2,8 @@
 Version=1.0
 Name=TTC Client
 Comment=A client for the Tamriel Trade Centre ESO add-on
-Exec=bash -c 'cd "/home/aaron/.steam/steam/steamapps/compatdata/306130/pfx/drive_c/users/steamuser/Documents/Elder Scrolls Online/live/AddOns/TamrielTradeCentre/Scripts/" && ./5-min-loop.sh'
-Icon=/home/aaron/.local/share/icons/ttc.png
+Exec=bash -c 'cd "/home/$(whoami)/.steam/steam/steamapps/compatdata/306130/pfx/drive_c/users/steamuser/Documents/Elder Scrolls Online/live/AddOns/TamrielTradeCentre/Scripts/" && ./5-min-loop.sh'
+Icon=/home/$(whoami)/.local/share/icons/ttc.png
 Terminal=true
 Type=Application
 Categories=Game;Utility;
